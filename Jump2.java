@@ -25,11 +25,14 @@ public class Jump2 {
         int a=0;
         int n=arr.length;
         int[] dp=new int[arr.length+10];
-        dp[n+1]=0;
-        dp[n+2]=0;
+        for(int i=1;i<=a[0];i++){
+            dp[n+i]=0;
+        }
         dp[n]=1;
         for(int i=n-1;i>=0;i--){
-            dp[i]=dp[i+1]+dp[i+2]+dp[i+3];
+            for(int j=a[i]:j>0;j++){
+                dp[i]+=dp[i-j];
+            }
         }
         return a;
     }
