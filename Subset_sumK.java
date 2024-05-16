@@ -6,8 +6,8 @@ public class Subset_sumK {
         int k=10;
         Subset_sumK sub = new Subset_sumK();
         int sum2 = calc_sum(a);
-        Number[][] dp = new Number[sum2+10][a.length+10];
-        // System.out.println(sub.subsetSum(a,k,0,sum2,0));
+        Number[][] dp = new Number[sum2*2+10][a.length+10];
+        System.out.println(sub.subsetSum(a,k,0,sum2,0));
         // System.out.println("with dp : "+sub.subsetSumdp(a,k,0,sum2,0,dp));
     }
 
@@ -20,7 +20,7 @@ public class Subset_sumK {
     }
     public int subsetSumdp (int[] a,int k,int sum,int sum2,int i,Number[][] dp){
         System.err.println(k+" "+sum+" "+sum2+" "+i);
-        if(dp[sum2][i]!=null) return (int)dp[sum2][i];
+        if(dp[sum2+sum][i]!=null) return (int)dp[sum2][i];
         if(k>sum+sum2||i==a.length){
             dp[sum2][i]=0;
             return 0;
@@ -32,7 +32,10 @@ public class Subset_sumK {
         dp[sum2][i]=subsetSum(a, k, sum+a[i], sum2-a[i], i+1)+subsetSum(a, k, sum, sum2-a[i], i+1);
         return (int)dp[sum2][i];
     }
-
+    public int subsetSumTabu(int[] a){
+        
+        return 0;
+    }
     public static int calc_sum(int[] a){
         int sum2=0;
         for(int i=0;i<a.length;i++){
