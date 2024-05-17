@@ -1,5 +1,4 @@
 
-import java.util.*;
 
 public class Grid2 {
     public static void main(String[] args) {

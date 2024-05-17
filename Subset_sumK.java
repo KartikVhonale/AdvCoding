@@ -1,5 +1,4 @@
-import java.io.*;
-import java.util.*;
+
 public class Subset_sumK {
     public static void main(String[] args) {
         int[] a={3,34,4,12,5,2};

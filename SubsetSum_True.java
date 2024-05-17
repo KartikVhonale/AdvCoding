@@ -1,7 +1,4 @@
-import java.io.*;
-import java.util.*;
 
-import javax.sound.midi.SysexMessage;
 public class SubsetSum_True {
     public static void main(String[] args) {
         int[] a={4,2,7,1,3};
