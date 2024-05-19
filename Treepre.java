@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -32,13 +34,13 @@ public class Treepre {
     public static void preorder(Node head, ArrayList<Integer> alist){
         if(head == null)return;
         alist.add(head.data);
-        inorder(head.left, alist);
-        inorder(head.right, alist);
+        preorder(head.left, alist);
+        preorder(head.right, alist);
     }
     public static void postorder(Node head, ArrayList<Integer> alist){
         if(head == null)return;
-        inorder(head.left, alist);
-        inorder(head.right, alist);
+        postorder(head.left, alist);
+        postorder(head.right, alist);
         alist.add(head.data);
     }
 
@@ -75,15 +77,6 @@ public class Treepre {
         }
         return false;
     }
-    //kam lines main
-    public static boolean path2(Node head,int target,ArrayList<Integer> a){
-        if(head == null)return false;
-        if(target==head.data||path2(head.left, target,a)||path2(head.right, target,a)){
-            a.add(head.data);
-            return true;
-        }
-        return false;
-    }
 
 
 
@@ -101,6 +94,59 @@ public class Treepre {
             System.err.println(a.get(i));
         }
     }
+
+
+    //level order
+    public static void level(Node head,Queue<Integer> q,int count){
+       
+        if(head == null)return;
+        while(!q.isEmpty()&&count!=0){
+            System.out.print(q.peek()+ ",");
+            q.remove();
+            count--;
+        }
+        if(count==0)System.out.println();     
+        if(head.left!=null){
+            q.add(head.left.data);
+            count++;
+        }
+        if(head.right!=null){
+            q.add(head.right.data);
+            count++;
+        }
+        
+        level(head.left,q,count);
+        level(head.right,q,count);
+       
+    }
+    public static void level(Node head){
+        Queue<Node> q = new LinkedList<>();
+        q.add(head);
+        while (q.size()>0) {
+            int sz=q.size();
+            for(int i=0;i<sz;i++){
+                Node temp = q.remove();
+                System.out.print(temp.data+" ");
+                if(temp.left!=null) q.add(temp.left);
+                if(temp.right!=null) q.add(temp.right);
+            }
+            System.out.println();
+        }
+    }
+
+    //print elements at a level
+    public static void levelElement(Node head,int level){
+        if(head==null)return;
+        if(level==0){
+            System.out.print(head.data+" ");
+            return;
+        }
+        levelElement(head.left, level-1);
+        levelElement(head.right, level-1);
+        return;
+    }
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Integer> alist=new ArrayList<>();
@@ -179,10 +225,12 @@ public class Treepre {
         //find element
         System.out.println(find(node, 6));
         ArrayList<Integer> path_1=new ArrayList<>();
-        // path(node, 9, path_1);
-        // System.out.println("path : "+path_1);
-        path2(node, 9, path_1);
+        path(node, 9, path_1);
         System.out.println("path : "+path_1);
+
+        // level(node);
+        levelElement(node,2);
+
 
 
     }
