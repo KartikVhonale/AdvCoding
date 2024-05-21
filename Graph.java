@@ -25,6 +25,37 @@ public class Graph {
         }
         return false;
     }
+    public static Boolean printpath(ArrayList<Edge>[] graph,int src,int dest,boolean[] visited){
+        if(src==dest){
+            System.out.print(src+" ");
+            return true;
+        }
+        if(visited[src]==false){
+            visited[src]=true;
+            boolean a=false;
+            for(int i=0;i<graph[src].size();i++){
+                a=printpath(graph, graph[src].get(i).nbr,dest, visited);
+                if(a==true){
+                    System.out.print(src+" ");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static void printAllpath(ArrayList<Edge>[] graph,int src,int dest,boolean[] visited,String s){
+        if(src==dest){
+            System.out.println(s);
+            return ;
+        }
+        if(visited[src]==false){
+            visited[src]=true;
+            for(int i=0;i<graph[src].size();i++){
+                printAllpath(graph, graph[src].get(i).nbr,dest, visited,s+graph[src].get(i).nbr);
+            }
+        }
+        return ;
+    }
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
         int v=sc.nextInt();
@@ -49,8 +80,11 @@ public class Graph {
 
         boolean[] visited=new boolean[v];
         Arrays.fill(visited, false);
-        boolean isTherePath=haspath(graph, 1, 4,visited);
-        System.out.println(isTherePath);
+        // boolean isTherePath=haspath(graph, 1, 4,visited);
+        // System.out.println(isTherePath);
+        String s="";
+        // System.out.println(printpath(graph, 0, 6, visited,s));
+        printAllpath(graph, 0, 6, visited,s);
     }
 }
 // 7
