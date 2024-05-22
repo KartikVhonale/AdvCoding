@@ -66,7 +66,7 @@ public class Graph {
 
     // general method using hashmap
     public static void saveAllpathswithweight(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited,
-            ArrayList<Integer> a, HashMap<Integer, ArrayList<Integer>> b,int cost) {
+            ArrayList<Integer> a, HashMap<Integer, ArrayList<Integer>> b, int cost) {
         if (src == dest) {
             ArrayList<Integer> temp = new ArrayList<>(a);
             b.put(cost, temp);
@@ -76,9 +76,9 @@ public class Graph {
         for (int i = 0; i < graph[src].size(); i++) {
             if (!visited[graph[src].get(i).nbr]) {
                 a.add(graph[src].get(i).nbr);
-                cost+=graph[src].get(i).wt;
-                saveAllpathswithweight(graph, graph[src].get(i).nbr, dest, visited, a, b,cost);
-                cost-=graph[src].get(i).wt;
+                cost += graph[src].get(i).wt;
+                saveAllpathswithweight(graph, graph[src].get(i).nbr, dest, visited, a, b, cost);
+                cost -= graph[src].get(i).wt;
                 a.remove(a.size() - 1);
             }
         }
@@ -86,30 +86,31 @@ public class Graph {
         return;
     }
 
-    //mehtod without hashmap
-    static int minwt=Integer.MAX_VALUE;
-    static String bestpath="";
-    public static void minimumweightpath2(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited,int wtf,String psf){
-        if(src==dest){
-            if(wtf<minwt){
-                minwt=wtf;
-                bestpath=psf;
+    // mehtod without hashmap
+    static int minwt = Integer.MAX_VALUE;
+    static String bestpath = "";
+
+    public static void minimumweightpath2(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited, int wtf,
+            String psf) {
+        if (src == dest) {
+            if (wtf < minwt) {
+                minwt = wtf;
+                bestpath = psf;
             }
             return;
         }
         visited[src] = true;
         for (int i = 0; i < graph[src].size(); i++) {
-            if (!visited[graph[src].get(i).nbr]){
-                psf+=graph[src].get(i).nbr;
-                wtf+=graph[src].get(i).wt;
-                minimumweightpath2(graph, graph[src].get(i).nbr, dest, visited, wtf,psf);
-                wtf+=graph[src].get(i).wt;
+            if (!visited[graph[src].get(i).nbr]) {
+                psf += graph[src].get(i).nbr;
+                wtf += graph[src].get(i).wt;
+                minimumweightpath2(graph, graph[src].get(i).nbr, dest, visited, wtf, psf);
+                wtf += graph[src].get(i).wt;
             }
         }
         visited[src] = false;
         return;
     }
-
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -141,31 +142,47 @@ public class Graph {
         // System.out.println(printpath(graph, 0, 6, visited,s));
         printAllpath(graph, 0, 6, visited, s);
 
-        boolean[] visited2 = new boolean[v];
+
+
+        // boolean[] visited2 = new boolean[v];
         // ArrayList<Integer> a=new ArrayList<>();
         // ArrayList<ArrayList<Integer>> b=new ArrayList<>();
         // a.add(0);
         // saveAllpaths(graph, 0, 6, visited2,a,b);
         // System.out.println(b);
-        
-        // ArrayList<Integer> a = new ArrayList<>();
-        // HashMap<Integer, ArrayList<Integer>> b = new HashMap<>();
-        // a.add(0);
-        // saveAllpathswithweight(graph, 0, 6, visited2, a, b,0);
-        // System.out.println(b);
-        // int min = Integer.MAX_VALUE;
-        // List<String> minKeys = new ArrayList<>();
-        // for (Map.Entry<Integer, ArrayList<Integer>> entry : b.entrySet()) {
-            //     if (entry.getKey() < min) {
-                //         min = entry.getKey();
-                //         minKeys.clear();
-                //     }
-                // }
-                // System.out.println("minimum => "+min+"="+b.get(min));
-                
-        boolean[] visited3 = new boolean[v];  
-        minimumweightpath2(graph, 0, 6, visited3, 0, "0");
-        System.out.println("minimum path : "+minwt+" = "+bestpath);
+
+
+
+
+        // print all paths and find minimum cost
+        boolean[] visited4 = new boolean[v];
+        ArrayList<Integer> a = new ArrayList<>();
+        HashMap<Integer, ArrayList<Integer>> b = new HashMap<>();
+        a.add(0);
+        saveAllpathswithweight(graph, 0, 6, visited4, a, b, 0);
+        System.out.println(b);
+        int min = Integer.MAX_VALUE;
+        List<String> minKeys = new ArrayList<>();
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : b.entrySet()) {
+            if (entry.getKey() < min) {
+                min = entry.getKey();
+                minKeys.clear();
+            }
+        }
+        System.out.println("minimum => " + min + "=" + b.get(min));
+
+        //ceil value to 43 
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : b.entrySet()) {
+            if (entry.getKey() > 43) {
+                min = entry.getKey();
+                minKeys.clear();
+            }
+        }
+
+        ////other method
+        // boolean[] visited3 = new boolean[v];
+        // minimumweightpath2(graph, 0, 6, visited3, 0, "0");
+        // System.out.println("minimum path : "+minwt+" = "+bestpath);
 
     }
 }
