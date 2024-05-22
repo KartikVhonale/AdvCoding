@@ -15,45 +15,46 @@ public class Graph {
     }
     public static boolean haspath(ArrayList<Edge>[] graph,int src,int dest,boolean[] visited){
         if(src==dest)return true;
-        if(visited[src]==false){
             visited[src]=true;
             boolean a=false;
             for(int i=0;i<graph[src].size();i++){
-                a=haspath(graph, graph[src].get(i).nbr,dest, visited);
-                if(a==true)return true;
-            }
-        }
-        return false;
-    }
-    public static Boolean printpath(ArrayList<Edge>[] graph,int src,int dest,boolean[] visited){
-        if(src==dest){
-            System.out.print(src+" ");
-            return true;
-        }
-        if(visited[src]==false){
-            visited[src]=true;
-            boolean a=false;
-            for(int i=0;i<graph[src].size();i++){
-                a=printpath(graph, graph[src].get(i).nbr,dest, visited);
-                if(a==true){
-                    System.out.print(src+" ");
-                    return true;
+                if(!visited[graph[src].get(i).nbr]){
+                    a=haspath(graph, graph[src].get(i).nbr,dest, visited);
+                    if(a==true)return true;
                 }
             }
-        }
+            visited[src]=false;
         return false;
     }
+    
     public static void printAllpath(ArrayList<Edge>[] graph,int src,int dest,boolean[] visited,String s){
         if(src==dest){
             System.out.println(s);
             return ;
         }
-        if(visited[src]==false){
             visited[src]=true;
             for(int i=0;i<graph[src].size();i++){
+                if(!visited[graph[src].get(i).nbr])
                 printAllpath(graph, graph[src].get(i).nbr,dest, visited,s+graph[src].get(i).nbr);
             }
+            visited[src]=false;
+        return ;
+    }
+    public static void saveAllpaths(ArrayList<Edge>[] graph,int src,int dest,boolean[] visited,ArrayList<Integer> a,ArrayList<ArrayList<Integer>> b){
+        if(src==dest){
+            ArrayList<Integer> temp=new ArrayList<>(a);
+            b.add(temp);
+            return ;
         }
+        visited[src]=true;
+            for(int i=0;i<graph[src].size();i++){
+                if(!visited[graph[src].get(i).nbr]){
+                    a.add(graph[src].get(i).nbr);
+                    saveAllpaths(graph, graph[src].get(i).nbr,dest, visited,a,b);
+                    a.remove(a.size()-1);
+                }
+            }
+        visited[src]=false;
         return ;
     }
     public static void main(String[] args) {
@@ -74,7 +75,7 @@ public class Graph {
             int wt = Integer.parseInt(arr[2]);
             
             graph[src].add(new Edge(src,nbr, wt));
-            graph[nbr].add(new Edge(nbr,nbr, wt));
+            graph[nbr].add(new Edge(nbr,src, wt));
         }
         // for(int i=0;i<v;i++) System.out.println(graph[i].get(0).nbr);
 
@@ -85,6 +86,14 @@ public class Graph {
         String s="";
         // System.out.println(printpath(graph, 0, 6, visited,s));
         printAllpath(graph, 0, 6, visited,s);
+        
+        
+        boolean[] visited2=new boolean[v];
+        ArrayList<Integer> a=new ArrayList<>();
+        ArrayList<ArrayList<Integer>> b=new ArrayList<>();
+        a.add(0);
+        saveAllpaths(graph, 0, 6, visited2,a,b);
+        System.out.println(b);
     }
 }
 // 7
