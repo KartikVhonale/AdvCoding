@@ -1,2 +1,4 @@
 perfect pairs
 number of island
+minimum path
+minimum spaning tree
