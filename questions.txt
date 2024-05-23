@@ -1,4 +1,11 @@
+Graphs:
 perfect pairs
 number of island
 minimum path
 minimum spaning tree
+
+Trees:
+Diameter of a tree
+leftview of tree
+rightview of tree
+bottom view,top view
